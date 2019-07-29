@@ -1,4 +1,4 @@
-﻿#Android AsyncTask源码分析
+#Android AsyncTask源码分析
 
 标签（空格分隔）： Android 源码 异步并发
 
@@ -7,6 +7,7 @@
 Android系统自带的AsyncTask一直以来都被诟病。3.0之前当任务队列超过128时，系统会抛出RejectedExecutionException导致系统崩溃。在3.0之后，Android团队又将AsyncTask改成了串行，并可通过设置executeOnExecutor(Executor)来实现多个AsyncTask并行。下面从源码来看下AsyncTask的原理,源码基于android23。
 
 ##串行执行器
+
 AsyncTask中定义了一个默认的执行器SERIAL_EXECUTOR，它是一个静态变量，所有的AsyncTask共用该执行器。如果你不通过executeOnExecutor设定其它的执行器，该执行器会控制任务的调用流程，也就是默认的串行调用。SerialExecutor中有一个双向列表mTasks用于存放Runnable，在执行时会将Runable放在mTasks列表中，在前一个runnable运行完成后，会调用scheduleNext从mTasks头部取出Runnable执行。能看出默认的执行器不是真正任务并发处理，而是顺序处理各个任务。
 ```java
 public static final Executor SERIAL_EXECUTOR = new SerialExecutor();

@@ -1,4 +1,5 @@
-﻿# Android打包工具packer-ng-plugin
+# Android打包工具packer-ng-plugin
+
 
 标签（空格分隔）： Android 开源项目 打包
 

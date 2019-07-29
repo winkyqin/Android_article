@@ -1,10 +1,6 @@
 # 换个角度看Android异步通信原理
 
-
-
 换个角度理解Android中异步通信问题：
-
-
 
 ## 首先我们要理解同一进程的两个线程共享哪些资源？
 
@@ -17,8 +13,6 @@
 信号的处理器</br>
 
 进程的当前目录和进程用户ID与进程组ID。</br>
-
-
 
 ## 其次我们要理解同一进程的两个线程有哪些不同？
 
@@ -40,8 +34,6 @@
 
 线程间要实现数据的通讯最方便的方式就是利用进程的公有数据。
 
-
-
 ## 回头来看Handler，Message，Looper关系
 
 每个线程一个Looper实例，同时一个Looper只有一个MessageQueue。</br>
@@ -54,13 +46,11 @@ Handler在初始化的时候就会关联上Looper的MessageQueue对象。</br>
 
 在另外一个线程中，因为可以共享使用Handler对象，就可以通过Handler发送消息给主线程</br>
 
-
-
 ## 简言之
 
 Handler在主线程创建时会与主线程绑定，同时关联主线程的Looper以及MessageQueue。在子线程时可通过引用该Handler对象发送Message请求将其加入MessageQueue。而主线程中looper会轮询MessageQueue，当有新的Message进入时，会交由handler的handleMessage函数在主线程进行处理。</br>
 
-**核心的原理就是利用了两个线程都使用的公有数据MessageQueue进行了线程间通信。**</br>
+**核心的原理就是利用了两个线程都使用的公有数据MessageQueue进行了线程间通信。**
 
 是不是很简单～～
 
